@@ -1,4 +1,13 @@
-/** @type {import('next').NextConfig} */
 module.exports = {
-  reactStrictMode: true,
+  images: {
+    dangerouslyAllowSVG: true,
+    domains: [
+      'via.placeholder.com',
+      'ui-avatars.com',
+      'localhost',
+      'i.ytimg.com'
+    ]
+  },
+
+  reactStrictMode: false
 }
