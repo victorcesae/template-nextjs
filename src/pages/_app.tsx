@@ -22,12 +22,8 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider session={pageProps.session}>
       <ThemeProvider
+        enableSystem={true}
         attribute="class"
-        defaultTheme="system"
-        value={{
-          dark: 'dark',
-          light: 'light'
-        }}
       >
         {/* <Shield> </Shield> */} {/* WITH RBAC */ }
         <NextNprogress
