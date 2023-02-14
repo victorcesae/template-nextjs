@@ -1,6 +1,45 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import { NextComponentType, NextPageContext } from 'next'
+import { Provider as AuthProvider } from 'next-auth/client'
+import { ThemeProvider } from 'next-themes'
+import NextNprogress from 'nextjs-progressbar'
+import { QueryClientProvider } from 'react-query'
+import { ToastContainer } from 'react-toastify'
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import 'react-toastify/dist/ReactToastify.min.css'
+import '../styles/global.css'
+
+import { queryClient } from '@/lib/queryClient'
+type AppProps = {
+  pageProps: any
+  Component:
+    | (NextComponentType<NextPageContext, any, Record<string, unknown>> & {
+        layoutProps: any
+      })
+    | any
 }
+function App({ Component, pageProps }: AppProps) {
+  const removeSpinner = { showSpinner: false }
+  return (
+    <AuthProvider session={pageProps.session}>
+      <ThemeProvider
+        enableSystem={true}
+        attribute="class"
+      >
+        {/* <Shield> </Shield> */} {/* WITH RBAC */ }
+        <NextNprogress
+            color="var(--colors-primary)"
+            startPosition={0.3}
+            stopDelayMs={200}
+            height={5}
+            options={removeSpinner}
+          />
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
+      </ThemeProvider>
+      <ToastContainer />
+    </AuthProvider>
+  )
+}
+
+export default App
